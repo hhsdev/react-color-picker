@@ -2,7 +2,7 @@
   "name": "@hhsdev/react-color-picker",
   "version": "1.0.0",
   "description": "\"Tool for quickly changing colors of your components\"",
-  "main": "colorPicker.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "webpack": "^4.41.6"
   }
 }
