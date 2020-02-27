@@ -1,0 +1,11 @@
+{
+  "name": "@hhsdev/react-color-picker",
+  "version": "1.0.0",
+  "description": "\"Tool for quickly changing colors of your components\"",
+  "main": "colorPicker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hhsdev",
+  "license": "MIT"
+}
