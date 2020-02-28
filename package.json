@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"No test specified\"",
-    "storybook": "start-storybook"
+    "storybook": "start-storybook -p 5555"
   },
   "author": "hhsdev",
   "license": "MIT",
