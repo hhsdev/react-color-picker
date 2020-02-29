@@ -12,6 +12,9 @@ const styles = {
     paddingBottom: 100,
     background: color =>
       `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a / 255})`
+  },
+  picker: {
+    zIndex: 4,
   }
 };
 
@@ -21,7 +24,7 @@ export const useCase = () => {
   const classes = useStyles(color);
   return (
     <div className={classes.root}>
-      <ColorPicker callback={setColor} />
+      <ColorPicker className={classes.picker} callback={setColor} />
     </div>
   );
 };

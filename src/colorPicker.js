@@ -33,7 +33,8 @@ const useStyles = createUseStyles(styles);
 
 export default function ColorPicker(props) {
   //TODO: make default color overridable
-  const { className = "" } = props;
+  let { className } = props;
+  if (!className) className = "";
   const [color, setColor] = useState(props.color || defaultColor);
   const { r, g, b, a } = color;
   const classes = useStyles(color);
