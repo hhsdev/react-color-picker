@@ -33,6 +33,7 @@ const useStyles = createUseStyles(styles);
 
 export default function ColorPicker(props) {
   //TODO: make default color overridable
+  const { className = "" } = props;
   const [color, setColor] = useState(props.color || defaultColor);
   const { r, g, b, a } = color;
   const classes = useStyles(color);
@@ -42,7 +43,7 @@ export default function ColorPicker(props) {
   }, [color]);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root + " " + className}>
       <ColorComponentPicker
         from="black"
         to="red"
