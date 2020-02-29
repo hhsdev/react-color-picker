@@ -5,19 +5,37 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"No test specified\"",
+    "build": "webpack",
+    "prepare": "rm -rf ./dist && npm run build",
     "storybook": "start-storybook -p 5555"
   },
   "author": "hhsdev",
   "license": "MIT",
   "dependencies": {
+    "@babel/plugin-proposal-function-bind": "^7.8.3",
     "react-jss": "^10.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-react": "^7.8.3",
     "@storybook/react": "^5.3.14",
     "babel-loader": "^8.0.6",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "webpack": "^4.41.6"
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  },
+  "files": [
+    "dist"
+  ],
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-function-bind"
+    ]
   }
 }
