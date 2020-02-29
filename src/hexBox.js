@@ -19,10 +19,9 @@ export default function HexBox(props) {
   const classes = useStyles();
   const { className, callback, argFormat, value } = props;
   const [hexString, setHexString] = useState(value || '');
-
   const inputRef = useRef();
 
-  useEffect(() => setHexString(value), [value]);
+  useEffect(() => setHexString(value || ''), [value]);
   useEffect(() => {
     if (callback) {
       if (!argFormat || argFormat === "hex") {

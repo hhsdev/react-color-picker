@@ -17,13 +17,26 @@ const utils = {
       return { r, g, b };
     } else {
       // TODO: ADD PROPER ERROR HANDLING
-      console.log("Error: unrecognized hex string format");
+      console.trace("Error: unrecognized hex string format: " + hexString);
       return null;
     }
   },
 
+  smartConvert: str => {
+    let num = String(str);
+    if (
+      num.startsWith("0x") ||
+      num.split("").some(ch => "abcdefABCDF".includes(ch))
+    ) {
+      num = parseInt(num, 16);
+    } else {
+      num = parseInt(num, 10);
+    }
+    return num;
+  },
+
   toHexString: (r, g, b) => {
-    const toHex = v => (v > 0xf ? "" : "0") + v.toString(16).toUpperCase();
+    const toHex = v => utils.smartConvert(v).toString(16).toUpperCase().padStart(2, "0");
     return ["#", toHex(r), toHex(g), toHex(b)].join("");
   },
 
@@ -34,7 +47,9 @@ const utils = {
     const isValidLength = hexString.length === 3 || hexString.length === 6;
 
     const hexDigits = "0123456789abcdefABCDEF";
-    const areValidHexDigits = hexString.split("").every(ch => hexDigits.includes(ch));
+    const areValidHexDigits = hexString
+      .split("")
+      .every(ch => hexDigits.includes(ch));
 
     return isValidLength && areValidHexDigits;
   }
