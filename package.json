@@ -4,7 +4,7 @@
   "description": "\"Tool for quickly changing colors of your components\"",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"No test specified\"",
+    "test": "mocha --require @babel/register",
     "build": "webpack",
     "prepare": "rm -rf ./dist && npm run build",
     "storybook": "start-storybook -p 5555"
@@ -19,6 +19,7 @@
     "@babel/core": "^7.8.6",
     "@babel/preset-env": "^7.8.6",
     "@babel/preset-react": "^7.8.3",
+    "@babel/register": "^7.8.6",
     "@storybook/react": "^5.3.14",
     "babel-loader": "^8.0.6",
     "mocha": "^7.1.0",
@@ -39,7 +40,8 @@
       "@babel/preset-react"
     ],
     "plugins": [
-      "@babel/plugin-proposal-function-bind"
+      "@babel/plugin-proposal-function-bind",
+      "@babel/plugin-proposal-class-properties"
     ]
   }
 }
