@@ -3,7 +3,7 @@ import Color from "../src/color";
 
 describe("Color", () => {
   describe("#from()", () => {
-    it("should return a color object for hexcode formats", () => {
+    it("should return a color object with correct values for hexcode formats", () => {
       test_from({
         format: "hexcode",
         color: "#ffffff",
@@ -15,6 +15,7 @@ describe("Color", () => {
         expected: new Color(0, 0, 0, 1)
       });
     });
+
     it("should return a color object with correct values for keyword formats", () => {
       test_from({
         format: "keyword",
@@ -26,8 +27,8 @@ describe("Color", () => {
         color: "black",
         expected: new Color(0, 0, 0, 1)
       });
-
     });
+
     it("should return a color object with correct values for rgb function formats", () => {
       test_from({
         format: "rgb",
@@ -39,8 +40,8 @@ describe("Color", () => {
         color: "rgb(0,0,0)",
         expected: new Color(0, 0, 0, 1)
       });
-
     });
+
     it("should return a color object with correct values for rgba function formats", () => {
       test_from({
         format: "rgba",
@@ -52,8 +53,8 @@ describe("Color", () => {
         color: "rgba(0,0,0,0)",
         expected: new Color(0, 0, 0, 0)
       });
-
     });
+
   });
 });
 
@@ -68,20 +69,4 @@ const test_from = test_case => {
   const { color, format, expected } = test_case;
   const actual = Color.from(color, format);
   color_equal(expected, actual);
-};
-
-const test_from_with_format_hexcode = fixtures => {
-  for (const fixture of fixtures) {
-    const { expected, hexcode } = fixture;
-    const actual = Color.from(keyword, "keyword");
-    color_equal(expected, actual);
-  }
-};
-
-const test_from_with_format_keyword = fixtures => {
-  for (const fixture of fixtures) {
-    const { expected, keyword } = fixture;
-    const actual = Color.from(keyword, "keyword");
-    color_equal(expected, actual);
-  }
 };
