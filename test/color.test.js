@@ -54,7 +54,66 @@ describe("Color", () => {
         expected: new Color(0, 0, 0, 0)
       });
     });
+  });
 
+
+  describe("#to()", () => {
+    it("correctly converts to css hexcode format", () => {
+      test_to({
+        color: [ 0xff, 0xff, 0xff, 1 ],
+        format: "hexcode",
+        expected: "#FFFFFF"
+      })
+      test_to({
+        color: [ 0, 0, 0, 1 ],
+        format: "hexcode",
+        expected: "#000000"
+      })
+    });
+
+    it("correctly converts to keyword format", () => {
+      test_to({
+        color: [ 0xff, 0xff, 0xff, 1 ],
+        format: "keyword",
+        expected: "white"
+      })
+      test_to({
+        color: [ 0, 0, 0, 1 ],
+        format: "keyword",
+        expected: "black"
+      })
+    });
+
+    it("correctly converts to rgb function format", () => {
+      test_to({
+        color: [ 0xff, 0xff, 0xff, 1 ],
+        format: "rgb",
+        expected: "rgb(255, 255, 255)"
+      })
+      test_to({
+        color: [ 0, 0, 0, 1 ],
+        format: "rgb",
+        expected: "rgb(0, 0, 0)"
+      })
+    });
+
+    it("correctly converts to rgba function format", () => {
+      test_to({
+        color: [ 0xff, 0xff, 0xff, 0.5 ],
+        format: "rgba",
+        expected: "rgba(255, 255, 255, 0.5)"
+      })
+      test_to({
+        color: [ 0, 0, 0, 1 ],
+        format: "rgba",
+        expected: "rgba(0, 0, 0, 1)"
+      })
+      test_to({
+        color: [ 0, 0, 0, 0 ],
+        format: "rgba",
+        expected: "rgba(0, 0, 0, 0)"
+      })
+    });
   });
 });
 
@@ -69,4 +128,14 @@ const test_from = test_case => {
   const { color, format, expected } = test_case;
   const actual = Color.from(color, format);
   color_equal(expected, actual);
+};
+
+const test_to = test_case => {
+  const {
+    color: [ r, g, b, a ],
+    format,
+    expected
+  } = test_case;
+  const actual = new Color(r, g, b, a).to(format);
+  equal(actual, expected);
 };

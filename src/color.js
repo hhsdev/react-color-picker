@@ -1,6 +1,8 @@
 import utils from "./utils";
 import cssColorKeywords from "./cssColors";
 
+let keywords = null;
+
 export default class Color {
   constructor(r, g, b, a) {
     this.r = r;
@@ -29,6 +31,27 @@ export default class Color {
         return null;
     }
   };
+
+  to(format) {
+    switch (format) {
+      case "hexcode":
+        return toHexcode(this);
+      case "keyword":
+        return toKeyword(this);
+      case "rgb":
+        return toRgbFunction(this);
+      case "rgba":
+        return toRgbaFunction(this);
+      case "color":
+        return this;
+      case "invalid":
+        console.trace("Error: invalid format");
+        return null;
+      default:
+        console.trace("Error: unknown format: " + format);
+        return null;
+    }
+  }
 }
 
 const fromKeyword = keyword => {
@@ -79,4 +102,36 @@ const fromRgbaFunction = str => {
   }
   console.trace("Error: given string not a valid css rgba() function: " + str);
   return null;
+};
+
+const toHexcode = color => {
+  const { r, b, g } = color;
+  const toHex = v =>
+    utils
+      .baseAwareConvert(v)
+      .toString(16)
+      .toUpperCase()
+      .padStart(2, "0");
+  return ["#", toHex(r), toHex(g), toHex(b)].join("");
+};
+
+const toKeyword = color => {
+  const hexcode = toHexcode(color).toLowerCase();
+  if (!keywords)
+    keywords = Object.keys(cssColorKeywords);
+  return keywords.find(key => cssColorKeywords[key] === hexcode);
+};
+
+const toRgbFunction = color => {
+  const { r, g, b } = color;
+  const convert = v => utils.baseAwareConvert(v);
+
+  return `rgb(${convert(r)}, ${convert(g)}, ${convert(b)})`;
+};
+const toRgbaFunction = color => {
+  const { r, g, b, a} = color;
+  const convert = v => utils.baseAwareConvert(v);
+
+  return `rgba(${convert(r)}, ${convert(g)}, ${convert(b)}, ${parseFloat(a)})`;
+
 };
