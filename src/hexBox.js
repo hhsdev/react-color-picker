@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import Color from "./color";
 import { createUseStyles } from "react-jss";
 import utils from "./utils";
 
@@ -19,24 +20,26 @@ export default function HexBox(props) {
   const classes = useStyles();
 
   const { className, callback, argFormat, value } = props;
-  const [hexString, setHexString] = useState(value || '');
+
+  const colorString = value || '#dec0de';// TODO: give it a sane default
+
+  const [color, setColor] = useState(Color.from(colorString));
   const inputRef = useRef();
 
-  useEffect(() => setHexString(value || ''), [value]);
+  useEffect(() => setColor(Color.from(colorString)), [colorString]);
+
   useEffect(() => {
     if (callback) {
       if (!argFormat || argFormat === "hex") {
-        if (utils.isValidHexString(hexString)) {
-          callback(hexString);
-        }
+        callback(color.to("hexcode"));
       } else if (argFormat === "rgb") {
-        const rgb = utils.toRgb(hexString);
-        if (rgb !== null) callback(rgb);
+        const { r, g, b } = color;
+        callback({r, g, b});
       }
       //TODO: Add more arguments formats
     }
-    inputRef.current.value = hexString;
-  }, [hexString, inputRef]);
+    inputRef.current.value = colorString;
+  }, [color, inputRef]);
 
   const handleKeyDown = e => {
     if (e.key === "Enter") {
