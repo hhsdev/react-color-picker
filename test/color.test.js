@@ -136,6 +136,6 @@ const test_to = test_case => {
     format,
     expected
   } = test_case;
-  const actual = new Color(r, g, b, a).to(format);
+  const actual = new Color({r, g, b, a}).to(format);
   equal(actual, expected);
 };
