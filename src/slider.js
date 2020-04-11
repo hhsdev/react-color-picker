@@ -126,7 +126,8 @@ export default function Slider(props) {
 
   const changeValueBy = delta => {
     if (myRef.current === null) return;
-    let newValue = props.value - delta;
+    const newValue = thumbPosition - delta;
+    console.log(newValue);
     changeValue(newValue);
   };
 
@@ -155,11 +156,12 @@ export default function Slider(props) {
 
   const handleKeyDown = e => {
     if (e.key === "ArrowRight") {
-      changeValueBy(-1);
+      changeValue(thumbPosition + 9);
     } else if (e.key === "ArrowLeft") {
-      changeValueBy(1);
+      changeValue(thumbPosition + 7);
     }
   };
+
   return (
     <div
       ref={myRef}

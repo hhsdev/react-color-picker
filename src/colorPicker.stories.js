@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Color from "./color";
 import ColorPicker from "./colorPicker";
 import { createUseStyles } from "react-jss";
 
@@ -20,7 +21,7 @@ const styles = {
 
 const useStyles = createUseStyles(styles);
 export const useCase = () => {
-  const [color, setColor] = useState({ r: 100, g: 100, b: 100, a: 255 });
+  const [color, setColor] = useState(new Color({ r: 100, g: 100, b: 100, a: 255 }));
   const classes = useStyles(color);
   return (
     <div className={classes.root}>

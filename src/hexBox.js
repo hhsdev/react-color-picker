@@ -17,6 +17,7 @@ const useStyles = createUseStyles(styles);
 
 export default function HexBox(props) {
   const classes = useStyles();
+
   const { className, callback, argFormat, value } = props;
   const [hexString, setHexString] = useState(value || '');
   const inputRef = useRef();

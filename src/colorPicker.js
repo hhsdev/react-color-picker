@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { createUseStyles, withTheme } from "react-jss";
+import { createUseStyles } from "react-jss";
+
+import Color from './color';
 import ColorBox from "./colorBox";
 import HexBox from "./hexBox";
 import utils from "./utils";
 import ColorComponentPicker from "./colorComponentPicker";
 
 // Fun fact: this is Pantone Color Institute's color of the year 2019 (Living Coral)
-const defaultColor = { r: 255, g: 111, b: 97, a: 255 };
+const defaultColor = new Color({ r: 255, g: 111, b: 97, a: 255 });
 
 const styles = {
   root: {
@@ -33,9 +35,22 @@ const useStyles = createUseStyles(styles);
 
 export default function ColorPicker(props) {
   //TODO: make default color overridable
-  let { className } = props;
-  if (!className) className = "";
-  const [color, setColor] = useState(props.color || defaultColor);
+  let {
+    className = "",
+    initialColor = defaultColor,
+    callback,
+    exportFormat = "hex",
+    ...other
+  } = props;
+
+  let initialColorFormat = "hex";
+
+  useEffect(() => {
+    initialColorFormat = utils.determineColorFormat(initialColor);
+  }, [initialColor]);
+
+
+  const [color, setColor] = useState(initialColor);
   const { r, g, b, a } = color;
   const classes = useStyles(color);
 
@@ -51,7 +66,7 @@ export default function ColorPicker(props) {
         className={classes.mb8}
         label="R"
         value={color.r}
-        callback={v => setColor({ r: v, g, b, a})}
+        callback={v => setColor({ r: v, g, b, a })}
       />
 
       <ColorComponentPicker
