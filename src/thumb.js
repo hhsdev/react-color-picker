@@ -12,8 +12,6 @@ const thumbStyles = {
     top: -4,
     left: ({ left, size }) => {
       let ret = left - size / 2;
-      if (ret < 0) ret = 0;
-      if (ret > 255 - size) ret = 255 - size;
       return ret;
     },
     background: "white",

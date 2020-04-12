@@ -36,12 +36,20 @@ FowbQ2gAARjwKARjtnN8AAAAASUVORK5CYII=")',
 
 const useSliderStyles = createUseStyles(sliderSyles);
 
-const toValue = (to, position) => {
-  position -= 16;
-  return Math.round((position * to) / sliderWidth);
+const keepInBound = (value, from, to) => {
+  if (value < from) value = from;
+  if (value > to) value = to;
+  return value;
 };
 
-const toThumb = (to, value) => {
+const toValue = (from, to, position, ref) => {
+  if (ref.current) position -= ref.current.offsetLeft;
+  const ret = Math.round((position * to) / sliderWidth);
+  return keepInBound(ret, from, to);
+  position -= thumbSize / 2;
+};
+
+const toThumb = (to, value, ref) => {
   return Math.round((value * sliderWidth) / to);
 };
 
@@ -51,13 +59,6 @@ export default function Slider(props) {
   let classes = useSliderStyles({ background });
 
   const divRef = useRef();
-
-  const keepInBound = (value) => {
-    if (value < 0) value = 0;
-    if (value > divRef.current.clientWidth) value = divRef.current.clientWidth;
-    return value;
-  };
-
   const changeValue = (newValue) => {
     if (!divRef.current) return;
     if (callback) callback(newValue);
@@ -72,7 +73,7 @@ export default function Slider(props) {
     }
   };
 
-  useTouch(divRef, ({ x }) => changeValue(toValue(to, x)));
+  useTouch(divRef, ({ x }) => changeValue(toValue(from, to, x, divRef)));
   return (
     <div ref={divRef}>
       <div
@@ -80,7 +81,7 @@ export default function Slider(props) {
         className={classes.slider + " " + className}
         onKeyDown={handleKeyDown}
       >
-        <Thumb left={toThumb(to, value)} size={thumbSize} />
+        <Thumb left={toThumb(to, value, divRef)} size={thumbSize} />
       </div>
     </div>
   );
