@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import Thumb from "./thumb";
+import useTouch from "./useTouch";
 import { createUseStyles } from "react-jss";
 
 const sliderSyles = {
@@ -35,76 +36,11 @@ const useSliderStyles = createUseStyles(sliderSyles);
 
 export default function Slider(props) {
   let classes = useSliderStyles(props);
-  const myRef = useRef();
 
   const { callback } = props;
   const [thumbPosition, setThumbPosition] = useState(props.value);
-  const touchId = useRef();
+  const myRef = useRef();
 
-  const trackFinger = (event, touchId) => {
-    if (touchId.current !== undefined && event.changedTouches) {
-      for (let i = 0; i < event.changedTouches.length; i += 1) {
-        const touch = event.changedTouches[i];
-        if (touch.identifier === touchId.current) {
-          return {
-            x: touch.clientX,
-            y: touch.clientY
-          };
-        }
-      }
-      return false;
-    }
-    return {
-      x: event.clientX,
-      y: event.clientY
-    };
-  };
-
-  const handleTouchStart = event => {
-    event.preventDefault();
-
-    const touch = event.changedTouches[0];
-    if (touch != null) {
-      touchId.current = touch.identifier;
-    }
-
-    const finger = trackFinger(event, touchId);
-    changeValue(finger.x);
-
-    document.addEventListener("touchmove", handleTouchMove);
-    document.addEventListener("touchend", handleTouchEnd);
-  };
-
-  const handleTouchMove = event => {
-    const finger = trackFinger(event, touchId);
-    if (!finger) return;
-    changeValue(finger.x);
-  };
-
-  const handleTouchEnd = useCallback(event => {
-    const finger = trackFinger(event, touchId);
-
-    if (!finger) return;
-
-    touchId.current = undefined;
-
-    document.removeEventListener("mousemove", handleTouchMove);
-    document.removeEventListener("mouseup", handleTouchEnd);
-    document.removeEventListener("touchmove", handleTouchMove);
-    document.removeEventListener("touchend", handleTouchEnd);
-  });
-  useEffect(() => {
-    const { current: slider } = myRef;
-    slider.addEventListener("touchstart", handleTouchStart);
-
-    return () => {
-      slider.removeEventListener("touchstart", handleTouchStart);
-      document.removeEventListener("mousemove", handleTouchMove);
-      document.removeEventListener("mouseup", handleTouchEnd);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [handleTouchEnd, handleTouchMove, handleTouchStart]);
   useEffect(() => {
     setThumbPosition(props.value);
   }, [props.value]);
@@ -131,43 +67,23 @@ export default function Slider(props) {
     changeValue(newValue);
   };
 
-  const handleMouseDown = e => {
-    changeValue(e.clientX);
-    document.body.style["pointer-events"] = "none";
-
-    document.addEventListener("mouseup", handleMouseUp, { capture: true });
-    document.addEventListener("mousemove", handleMouseMove, { capture: true });
-    e.stopPropagation();
-  };
-
-  const handleMouseUp = e => {
-    document.body.style["pointer-events"] = "auto";
-    document.removeEventListener("mouseup", handleMouseUp, { capture: true });
-    document.removeEventListener("mousemove", handleMouseMove, {
-      capture: true
-    });
-    e.stopPropagation();
-  };
-
-  const handleMouseMove = e => {
-    changeValue(e.clientX);
-    e.stopPropagation();
-  };
-
   const handleKeyDown = e => {
     if (e.key === "ArrowRight") {
-      changeValue(thumbPosition + 9);
+      changeValueBy(2);
+      //changeValue(thumbPosition + 9);
     } else if (e.key === "ArrowLeft") {
-      changeValue(thumbPosition + 7);
+      changeValueBy(-2);
+      //changeValue(thumbPosition + 7);
     }
   };
+
+  useTouch(myRef, ({x}) => { changeValue(x)});
 
   return (
     <div
       ref={myRef}
       tabIndex={0}
       className={classes.slider + " " + props.className}
-      onMouseDown={handleMouseDown}
       onKeyDown={handleKeyDown}
     >
       <Thumb left={thumbPosition} />
