@@ -40,7 +40,7 @@ export default function useTouch(eventRef, callback) {
 
     const fingerPosition = trackFingerPosition(event, touchId);
     callback(fingerPosition);
-
+    console.log("touchmove attached");
     document.addEventListener("touchmove", handleTouchMove);
     document.addEventListener("touchend", handleTouchEnd);
   };
@@ -67,8 +67,9 @@ export default function useTouch(eventRef, callback) {
     if (!eventRef.current) return;
     eventRef.current.addEventListener("touchstart", handleTouchStart);
     eventRef.current.addEventListener("mousedown", handleMouseDown);
-
+    console.log("this shouldn't run so many times");
     return () => {
+      console.log('touchmove removed');
       eventRef.current.removeEventListener("mousedown", handleMouseDown);
       eventRef.current.removeEventListener("touchstart", handleTouchStart);
       document.removeEventListener("mousemove", handleTouchMove);
@@ -76,7 +77,7 @@ export default function useTouch(eventRef, callback) {
       document.removeEventListener("touchmove", handleTouchMove);
       document.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [eventRef, handleTouchEnd, handleTouchMove, handleTouchStart]);
+  }, [!!eventRef.current]);
 
   const handleMouseDown = (e) => {
     callback({ x: e.clientX, y: e.clientY });

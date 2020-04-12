@@ -35,7 +35,7 @@ const useStyles = createUseStyles(styles);
 
 export default function ColorPicker(props) {
   //TODO: make default color overridable
-  let {
+  const {
     className = "",
     initialColor = defaultColor,
     callback,
@@ -61,8 +61,9 @@ export default function ColorPicker(props) {
   return (
     <div className={classes.root + " " + className}>
       <ColorComponentPicker
-        from="black"
-        to="red"
+        background="linear-gradient(to right, black, red)"
+        from={0}
+        to={255}
         className={classes.mb8}
         label="R"
         value={color.r}
@@ -70,8 +71,9 @@ export default function ColorPicker(props) {
       />
 
       <ColorComponentPicker
-        from="black"
-        to="green"
+        background="linear-gradient(to right, black, green)"
+        from={0}
+        to={255}
         className={classes.mb8}
         label="G"
         value={defaultColor.g}
@@ -79,17 +81,19 @@ export default function ColorPicker(props) {
       />
 
       <ColorComponentPicker
-        from="black"
-        to="blue"
+        background="linear-gradient(to right, black, blue)"
+        from={0}
+        to={255}
         className={classes.mb8}
-        label="G"
+        label="B"
         value={defaultColor.b}
         callback={v => setColor({ r, g, b: v, a })}
       />
 
       <ColorComponentPicker
-        from="rgba(0, 0, 0, 0)"
-        to="rgba(0, 0, 0, 255)"
+        background="linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 255))"
+        from={0}
+        to={255}
         className={classes.mb8}
         label="A"
         value={defaultColor.a}

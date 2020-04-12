@@ -5,7 +5,7 @@ import Slider from "./slider";
 const styles = {
   root: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   text: {
     marginLeft: 8,
@@ -13,25 +13,34 @@ const styles = {
     padding: 4,
     border: "1px solid grey",
     borderRadius: "0.2em",
-    margin: 0
-  }
+    margin: 0,
+  },
 };
 
 const useStyles = createUseStyles(styles);
 
 export default function ColorComponentPicker(props) {
   const classes = useStyles(styles);
-  const { from, to, className, label, value, callback, ...other } = props;
+  const {
+    background,
+    from,
+    to,
+    className,
+    label,
+    value,
+    callback,
+    ...other
+  } = props;
 
   const [stateValue, setStateValue] = useState(value);
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       setStateValue(e.target.value);
     }
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setStateValue(e.target.value);
   };
 
@@ -42,6 +51,7 @@ export default function ColorComponentPicker(props) {
   return (
     <div className={classes.root + " " + (props.className || "")}>
       <Slider
+        background={background}
         from={from}
         to={to}
         value={stateValue}
