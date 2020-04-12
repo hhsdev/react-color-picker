@@ -67,14 +67,14 @@ const toThumbPosition = (to, value) => {
 };
 
 export default function Slider(props) {
-  const { background, value, callback, from = 0, to = 100, className } = props;
+  const { background, value, onChange, from = 0, to = 100, className } = props;
 
   let classes = useSliderStyles({ background });
 
   const divRef = useRef();
 
   const changeValue = (newValue) => {
-    if (callback) callback(newValue);
+    if (onChange) onChange(newValue);
     return;
   };
 

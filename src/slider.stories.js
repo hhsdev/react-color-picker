@@ -7,7 +7,7 @@ export const blue = () => {
   const [v, setV] = React.useState(0);
   return (
     <div>
-      <Slider background="blue" value={v} callback={(newV) => setV(newV)} />
+      <Slider background="blue" value={v} onChange={(newV) => setV(newV)} />
       <p>Value is { v }.</p>
     </div>
   );

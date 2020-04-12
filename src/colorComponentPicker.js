@@ -56,7 +56,7 @@ export default function ColorComponentPicker(props) {
         to={to}
         value={stateValue}
         {...other}
-        callback={setStateValue}
+        onChange={setStateValue}
       />
       <span style={{ marginLeft: 16 }}>{label}</span>
       <input
