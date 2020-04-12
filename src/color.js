@@ -75,24 +75,25 @@ const fromKeyword = (keyword) => {
 const fromHexcode = (hexcode) => {
   hexcode = hexcode.trim();
   if (hexcode.startsWith("#")) hexcode = hexcode.substr(1);
-
+  let ret = null;
   if (hexcode.length === 6) {
     const r = parseInt(hexcode.substr(0, 2), 16);
     const g = parseInt(hexcode.substr(2, 2), 16);
     const b = parseInt(hexcode.substr(4, 2), 16);
 
-    return new Color({r, g, b, a: 1});
+    ret = new Color({r, g, b, a: 255});
   } else if (hexcode.length == 3) {
     const r = parseInt(hexcode.charAt(0).repeat(2), 16);
     const g = parseInt(hexcode.charAt(1).repeat(2), 16);
     const b = parseInt(hexcode.charAt(2).repeat(2), 16);
 
-    return new Color({r, g, b, a: 1});
+    ret = new Color({r, g, b, a: 255});
   } else {
     // TODO: ADD PROPER ERROR HANDLING
     console.trace("Error: unrecognized hex string format: " + hexcode);
     return null;
   }
+  return ret;
 };
 
 const fromRgbFunction = (str) => {
