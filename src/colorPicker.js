@@ -104,7 +104,6 @@ export default function ColorPicker(props) {
         <ColorBox color={{ r, g, b, a }} />
         <HexBox
           value={utils.toHexString(r, g, b)}
-          argFormat="rgb"
           callback={(v) => {
             const newColor = Color.from(v);
             if (newColor) setColor(newColor);

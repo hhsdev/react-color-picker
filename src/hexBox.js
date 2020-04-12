@@ -19,7 +19,7 @@ const useStyles = createUseStyles(styles);
 export default function HexBox(props) {
   const classes = useStyles();
 
-  const { className, callback, argFormat, value = "#dec0de" } = props;
+  const { className, callback, value = "#dec0de" } = props;
   const inputRef = useRef();
 
   useEffect(() => {
