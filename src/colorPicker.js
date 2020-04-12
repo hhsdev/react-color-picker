@@ -67,7 +67,7 @@ export default function ColorPicker(props) {
         className={classes.mb8}
         label="R"
         value={color.r}
-        callback={v => setColor({ r: v, g, b, a })}
+        callback={v => setColor(new Color({ r: v, g, b, a }))}
       />
 
       <ColorComponentPicker
@@ -76,8 +76,8 @@ export default function ColorPicker(props) {
         to={255}
         className={classes.mb8}
         label="G"
-        value={defaultColor.g}
-        callback={v => setColor({ r, g: v, b, a })}
+        value={color.g}
+        callback={v => setColor(new Color({ r, g: v, b, a }))}
       />
 
       <ColorComponentPicker
@@ -86,8 +86,8 @@ export default function ColorPicker(props) {
         to={255}
         className={classes.mb8}
         label="B"
-        value={defaultColor.b}
-        callback={v => setColor({ r, g, b: v, a })}
+        value={color.b}
+        callback={v => setColor(new Color({ r, g, b: v, a }))}
       />
 
       <ColorComponentPicker
@@ -96,8 +96,8 @@ export default function ColorPicker(props) {
         to={255}
         className={classes.mb8}
         label="A"
-        value={defaultColor.a}
-        callback={v => setColor({ r, g, b, a: v })}
+        value={color.a}
+        callback={v => setColor(new Color({ r, g, b, a: v }))}
       />
 
       <div style={{ display: "flex", alignItems: "" }}>
@@ -105,8 +105,12 @@ export default function ColorPicker(props) {
         <HexBox
           value={utils.toHexString(r, g, b)}
           argFormat="rgb"
-          callback={({ r, g, b }) => {
-            setColor({ r, g, b, a });
+          callback={(v) => {
+            console.log(color);
+            console.log(v);
+            const newColor = Color.from(v);
+            console.log(newColor);
+            setColor(newColor);
           }}
         />
       </div>
