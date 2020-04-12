@@ -106,11 +106,8 @@ export default function ColorPicker(props) {
           value={utils.toHexString(r, g, b)}
           argFormat="rgb"
           callback={(v) => {
-            console.log(color);
-            console.log(v);
             const newColor = Color.from(v);
-            console.log(newColor);
-            setColor(newColor);
+            if (newColor) setColor(newColor);
           }}
         />
       </div>

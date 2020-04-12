@@ -1,5 +1,5 @@
 import utils from "./utils";
-import cssColorKeywords from "./cssColors";
+import cssColorKeywords from "./cssColors.json";
 
 let keywords = null;
 
@@ -18,7 +18,8 @@ export default class Color {
     if (color.startsWith("#")) return "hexcode";
     if (color.startsWith("rgba")) return "rgba";
     if (color.startsWith("rgb")) return "rgb";
-    if (cssColorKeywords.indexOf(color) !== -1) return "keyword";
+    console.log(typeof cssColorKeywords);
+    if (cssColorKeywords[color] !== undefined) return "keyword";
     return "invalid";
   };
 

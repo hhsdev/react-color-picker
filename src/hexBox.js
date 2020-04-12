@@ -10,8 +10,8 @@ const styles = {
     padding: 4,
     borderRadius: 2,
     width: "4rem",
-    margin: 0
-  }
+    margin: 0,
+  },
 };
 
 const useStyles = createUseStyles(styles);
@@ -19,34 +19,20 @@ const useStyles = createUseStyles(styles);
 export default function HexBox(props) {
   const classes = useStyles();
 
-  const { className, callback, argFormat, value } = props;
-
-  const colorString = value || '#dec0de';// TODO: give it a sane default
-
-  const [color, setColor] = useState(Color.from(colorString));
+  const { className, callback, argFormat, value = "#dec0de" } = props;
   const inputRef = useRef();
 
-  useEffect(() => setColor(Color.from(colorString)), [colorString]);
-
   useEffect(() => {
-    if (callback) {
-      if (!argFormat || argFormat === "hex") {
-        callback(color.to("hexcode"));
-      } else if (argFormat === "rgb") {
-        const { r, g, b } = color;
-        callback({r, g, b});
-      }
-      //TODO: Add more arguments formats
+    // don't modify if you're currently writing in the box
+    if (inputRef.current && document.activeElement !== inputRef.current) {
+      inputRef.current.value = value;
     }
-    inputRef.current.value = colorString;
-  }, [color, inputRef]);
+  }, [inputRef, value]);
 
-  const handleKeyDown = e => {
-    if (e.key === "Enter") {
-      setHexString(inputRef.current.value);
-    }
+  const handleChange = (event) => {
+    callback(event.target.value);
   };
-  const selectText = e => inputRef.current.select();
+
   return (
     <div>
       <span
@@ -54,7 +40,7 @@ export default function HexBox(props) {
           fontFamily: "Arial",
           color: "#333",
           marginLeft: 16,
-          marginRight: 8
+          marginRight: 8,
         }}
       >
         Hex:
@@ -62,9 +48,9 @@ export default function HexBox(props) {
       <input
         ref={inputRef}
         type="text"
+        onChange={handleChange}
         className={classes.root + " " + className}
-        onKeyDown={handleKeyDown}
-        onBlur={e => (inputRef.current.value = props.value)}
+        onBlur={(e) => (inputRef.current.value = value)}
       />
     </div>
   );
