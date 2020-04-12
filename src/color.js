@@ -18,7 +18,6 @@ export default class Color {
     if (color.startsWith("#")) return "hexcode";
     if (color.startsWith("rgba")) return "rgba";
     if (color.startsWith("rgb")) return "rgb";
-    console.log(typeof cssColorKeywords);
     if (cssColorKeywords[color] !== undefined) return "keyword";
     return "invalid";
   };
@@ -39,7 +38,7 @@ export default class Color {
       case "color":
         return color;
       case "invalid":
-        console.trace("Error: invalid format");
+        //console.trace("Error: invalid format");
         return null;
       default:
         console.trace("Error: unknown format: " + format);
@@ -91,7 +90,6 @@ const fromHexcode = (hexcode) => {
     ret = new Color({r, g, b, a: 255});
   } else {
     // TODO: ADD PROPER ERROR HANDLING
-    console.trace("Error: unrecognized hex string format: " + hexcode);
     return null;
   }
   return ret;
