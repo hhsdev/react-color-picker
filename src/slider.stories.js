@@ -5,5 +5,5 @@ export default { title: "Slider" };
 
 export const blue = () => {
   const [v, setV] = React.useState(0);
-  return <Slider from="black" to="red" value={0} callback={ (newV) => setV(newV) }/>;
+  return <Slider from="black" to="blue" value={v} callback={ (newV) => setV(newV) }/>;
 };
