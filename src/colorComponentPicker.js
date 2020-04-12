@@ -20,6 +20,7 @@ const styles = {
 const useStyles = createUseStyles(styles);
 
 export default function ColorComponentPicker(props) {
+  const inputRef = useRef();
   const classes = useStyles(styles);
   const {
     background,
@@ -32,21 +33,12 @@ export default function ColorComponentPicker(props) {
     ...other
   } = props;
 
-  const [stateValue, setStateValue] = useState(value);
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      setStateValue(e.target.value);
-    }
-  };
-
-  const handleChange = (e) => {
-    setStateValue(e.target.value);
-  };
-
   useEffect(() => {
-    if (callback) callback(stateValue);
-  }, [stateValue]);
+    // don't modify if you're currently writing in the box
+    if (inputRef.current && document.activeElement !== inputRef.current) {
+      inputRef.current.value = value;
+    }
+  }, [inputRef, value]);
 
   return (
     <div className={classes.root + " " + (props.className || "")}>
@@ -54,17 +46,17 @@ export default function ColorComponentPicker(props) {
         background={background}
         from={from}
         to={to}
-        value={stateValue}
+        value={value}
         {...other}
-        onChange={setStateValue}
+        onChange={callback}
       />
       <span style={{ marginLeft: 16 }}>{label}</span>
       <input
+        ref={inputRef}
         type="text"
         className={classes.text}
-        value={stateValue}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        // FIXME: this doesn't check for validity of the input value!
+        onChange={(e) => callback(event.target.value)}
       />
     </div>
   );
