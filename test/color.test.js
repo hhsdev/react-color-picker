@@ -7,12 +7,12 @@ describe("Color", () => {
       test_from({
         format: "hexcode",
         color: "#ffffff",
-        expected: new Color(0xff, 0xff, 0xff, 1)
+        expected: new Color(0xff, 0xff, 0xff, 0xff)
       });
       test_from({
         format: "hexcode",
         color: "#000",
-        expected: new Color(0, 0, 0, 1)
+        expected: new Color(0, 0, 0, 0xff)
       });
     });
 
@@ -20,12 +20,12 @@ describe("Color", () => {
       test_from({
         format: "keyword",
         color: "white",
-        expected: new Color(0xff, 0xff, 0xff, 1)
+        expected: new Color(0xff, 0xff, 0xff, 0xff)
       });
       test_from({
         format: "keyword",
         color: "black",
-        expected: new Color(0, 0, 0, 1)
+        expected: new Color(0, 0, 0, 0xff)
       });
     });
 
@@ -33,12 +33,12 @@ describe("Color", () => {
       test_from({
         format: "rgb",
         color: "rgb(0xff, 255, 255)",
-        expected: new Color(0xff, 0xff, 0xff, 1)
+        expected: new Color(0xff, 0xff, 0xff, 0xff)
       });
       test_from({
         format: "rgb",
         color: "rgb(0,0,0)",
-        expected: new Color(0, 0, 0, 1)
+        expected: new Color(0, 0, 0, 0xff)
       });
     });
 
@@ -46,7 +46,7 @@ describe("Color", () => {
       test_from({
         format: "rgba",
         color: "rgba(0xff, 255, 255, 0.5)",
-        expected: new Color(0xff, 0xff, 0xff, 0.5)
+        expected: new Color(0xff, 0xff, 0xff, 128)
       });
       test_from({
         format: "rgba",

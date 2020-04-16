@@ -4,7 +4,12 @@ import cssColorKeywords from "./cssColors.json";
 let keywords = null;
 
 export default class Color {
-  constructor({ r, g, b, a }) {
+  constructor(color, g, b, a) {
+    if (typeof(color) === 'number') {
+      var r = color;
+    } else {
+      var { r, g, b, a } = color;
+    }
     this.r = r;
     this.g = g;
     this.b = b;
@@ -100,7 +105,7 @@ const fromRgbFunction = (str) => {
   const matches = str.match(rgbMatcher);
   if (matches) {
     const [_, r, g, b] = matches.map((v) => utils.baseAwareConvert(v));
-    return new Color({r, g, b, a: 1});
+    return new Color({r, g, b, a: 255});
   }
   console.trace("Error: given string not a valid css rgb() function: " + str);
   return null;
@@ -111,7 +116,8 @@ const fromRgbaFunction = (str) => {
   const matches = str.match(rgbaMatcher);
   if (matches) {
     const [_, r, g, b] = matches.map((v) => utils.baseAwareConvert(v));
-    const a = parseFloat(matches[4]);
+    const aFloat = parseFloat(matches[4]);
+    const a = Math.round(aFloat * 255);
     return new Color({r, g, b, a});
   }
   console.trace("Error: given string not a valid css rgba() function: " + str);
@@ -137,9 +143,9 @@ const toRgbFunction = (color) => {
 
   return `rgb(${convert(r)}, ${convert(g)}, ${convert(b)})`;
 };
+
 const toRgbaFunction = (color) => {
   const { r, g, b, a } = color;
   const convert = (v) => utils.baseAwareConvert(v);
-
   return `rgba(${convert(r)}, ${convert(g)}, ${convert(b)}, ${parseFloat(a)})`;
 };
