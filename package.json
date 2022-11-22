@@ -20,13 +20,13 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@babel/register": "^7.9.0",
-    "@storybook/react": "^5.3.18",
+    "@storybook/react": "^6.5.13",
     "babel-loader": "^8.1.0",
     "mocha": "^7.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.12"
   },
   "files": [
     "dist"
